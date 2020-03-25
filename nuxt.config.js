@@ -53,7 +53,7 @@ module.exports = {
     [
       '/api',
       {
-        target: 'http://localhost:3000', // api主机
+        target: 'http://ayanamisuki.com/', // api主机
         pathRewrite: { '^/api': '/' }
       }
     ]
