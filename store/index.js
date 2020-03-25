@@ -15,7 +15,7 @@ export const mutations = {
 
 export const actions = {
     nuxtServerInit({ commit }, { req }) {
-        if (req.ctx.session.passport.user) {
+        if (req.ctx.session.passport != undefined) {
             commit('SET_USER', req.ctx.session.passport.user)
         }
     }

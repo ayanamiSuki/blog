@@ -34,12 +34,10 @@ export default {
       corrugatedDom.style.top = y - 15 + "px";
       corrugatedDom.style.left = x - 15 + "px";
       corrugatedDom.classList.add("active");
-      setTimeout(() => {
-        this.$router.push({
-          path: "/listDetail",
-          query: { id: JSON.stringify(id) }
-        });
-      }, 300);
+      this.$router.push({
+        path: "/listDetail",
+        query: { id: JSON.stringify(id) }
+      });
       setTimeout(() => {
         corrugatedDom.classList.remove("active");
       }, 1000);

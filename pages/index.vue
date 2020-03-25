@@ -9,9 +9,7 @@
     <el-row class="ohter-intro lg">
       <span>取长补短</span>
       <span>自己的github，双倍的快乐</span>
-      <el-button>
-        <nuxt-link to="/editor">点我发布文章</nuxt-link>
-      </el-button>
+      <el-button @click="punish">点我发布文章</el-button>
     </el-row>
     <el-row class="list-content">
       <list-item :listData="list" />
@@ -41,6 +39,15 @@ export default {
     setTimeout(() => {
       this.isloading = true;
     }, 1000);
+  },
+  methods: {
+    punish() {
+      if (this.$store.state.userInfo.username == "") {
+        this.$message.error("请先登录");
+      } else {
+        this.$router.push("/editor", null);
+      }
+    }
   }
 };
 </script>
