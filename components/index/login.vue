@@ -131,11 +131,15 @@ export default {
                 username: this.ruleForm1.username
               })
               .then(res => {
-                this.$message({
-                  type: "success",
-                  message: res.msg
-                });
-                this.$emit("logined", null);
+                if (res.code === 0) {
+                  this.$message({
+                    type: "success",
+                    message: res.msg
+                  });
+                  this.$emit("logined", null);
+                } else {
+                  this.$message.error(res.msg);
+                }
               });
             return false;
           } else {

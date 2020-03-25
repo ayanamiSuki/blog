@@ -49,12 +49,16 @@ module.exports = {
     '@nuxtjs/axios',
     '@nuxtjs/proxy'
   ],
+  axios: {
+    proxy: true, // 表示开启代理
+    credentials: true // 表示跨域请求时是否需要使用凭证
+  },
   proxy: [
     [
       '/api',
       {
         target: 'http://101.133.227.160/', // api主机
-        pathRewrite: { '^/api': '/', changeOrigin: true }
+        changeOrigin: true,
       }
     ]
   ],
