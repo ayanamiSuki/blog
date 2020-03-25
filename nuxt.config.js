@@ -53,8 +53,8 @@ module.exports = {
     [
       '/api',
       {
-        target: 'http://ayanamisuki.com/', // api主机
-        pathRewrite: { '^/api': '/' }
+        target: 'http://101.133.227.160/', // api主机
+        pathRewrite: { '^/api': '/', changeOrigin: true }
       }
     ]
   ],
