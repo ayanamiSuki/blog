@@ -1,0 +1,59 @@
+.wrap{
+    width: 450px;
+    text-align: center;
+    border: 1px solid #f2f2f2;
+    padding: 10px;
+    position: fixed;
+    left: 50%;
+    top: 40%;
+    margin-left: -225px;
+    margin-top: -113.3px;
+    z-index: 999999;
+    background-color: #fff;
+    .el-icon-circle-close{
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        cursor: pointer;
+    }
+    .welcome{
+        padding-bottom:10px ;
+    }
+    .th{
+        text-align: center;
+        padding-bottom: 20px;
+        .loginbtn{
+            &:hover{
+                color: #002d4a;
+                cursor: pointer;
+            }
+        }
+        .registerbtn{
+            &:hover{
+                color: #002d4a;
+                cursor: pointer;
+            }
+        }
+    }
+    .active{
+        color: #002d4a;
+        font-weight: bold;
+    }
+}
+.verify{
+    .el-button{
+        width: 40%;
+        float: left;
+        margin-left: 3%;
+    }
+    .el-input{
+        width: 57%;
+        float: left;
+    }
+}
+
+.subbtn {
+    background-color: #025d97;
+    color: #fff;
+    padding:10px 40px;
+}

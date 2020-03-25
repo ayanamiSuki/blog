@@ -1,72 +1,93 @@
 <template>
-  <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        ayablog
-      </h1>
-      <h2 class="subtitle">
-        private blog
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
+  <div class="main">
+    <el-row class="banner">
+      <img src="https://wx3.sinaimg.cn/large/9afd6f06gy1gctay1ir55j21yt0ik40w.jpg" alt="banner" />
+      <transition name="silde-left">
+        <span class="logo lg" v-show="isloading">ayanamiSuki.com</span>
+      </transition>
+    </el-row>
+    <el-row class="ohter-intro lg">
+      <span>取长补短</span>
+      <span>自己的github，双倍的快乐</span>
+      <el-button>
+        <nuxt-link to="/editor">点我发布文章</nuxt-link>
+      </el-button>
+    </el-row>
+    <el-row class="list-content">
+      <list-item :listData="list" />
+    </el-row>
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-
+import listItem from "../components/index/list";
 export default {
   components: {
-    Logo
+    listItem
+  },
+  async asyncData(ctx) {
+    let listRequest = await ctx.$axios.get("article/getarticle");
+    if (listRequest.code === 0) {
+      return { list: listRequest.data };
+    }
+  },
+  data() {
+    return {
+      isloading: false,
+      list: []
+    };
+  },
+  mounted() {
+    setTimeout(() => {
+      this.isloading = true;
+    }, 1000);
   }
-}
+};
 </script>
 
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
+<style lang="scss" scoped>
+.banner {
+  max-height: 450px;
+  overflow: hidden;
+  border-bottom: 1px solid #f2f2f2;
+  position: relative;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .logo {
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 10px;
+  }
+}
+.ohter-intro {
+  min-height: 200px;
+  background-color: #002d4a;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
+  color: #7cafcf;
+  span {
+    padding: 10px;
+  }
+  .el-button {
+    margin-top: 10px;
+  }
 }
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
+.list-content {
+  background-color: #f2f2f2;
+  min-height: 200px;
 }
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
+.silde-left-leave-active,
+.silde-left-enter-active {
+  transform: translateX(0);
+  transition: transform 0.5s linear;
 }
-
-.links {
-  padding-top: 15px;
+.silde-left-enter {
+  transform: translateX(-100%);
 }
 </style>

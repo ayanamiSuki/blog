@@ -1,0 +1,51 @@
+.iconfont{
+    font-family:"iconfont" !important;
+    font-size:24px;font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+    font-family: 'iconfont';  /* project id 1690705 */
+    src: url('//at.alicdn.com/t/font_1690705_qg2oj704jwh.eot');
+    src: url('//at.alicdn.com/t/font_1690705_qg2oj704jwh.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_1690705_qg2oj704jwh.woff2') format('woff2'),
+    url('//at.alicdn.com/t/font_1690705_qg2oj704jwh.woff') format('woff'),
+    url('//at.alicdn.com/t/font_1690705_qg2oj704jwh.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_1690705_qg2oj704jwh.svg#iconfont') format('svg');
+}
+
+.el-header{
+    padding: 0;
+    height: auto;
+}
+
+.sm{
+ font-size: 12px;   
+}
+.md{
+    font-size: 15px;
+}
+.lg{
+    font-size: 18px;
+}
+.w-e-text-container {
+    min-height: 500px;
+  } 
+
+  h2 {
+    font-size: 1.2em;
+    color: #595959;
+  }
+
+  #editor p{
+      color: #6e6e6e;
+  }
+  .slide-down-enter-active,.slide-down-leave-active{
+
+    transition: all .3s ease-out;
+  }
+  .slide-down-enter,.slide-down-leave-to{
+    transform: translateY(-100vh);
+  }
