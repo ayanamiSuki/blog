@@ -16,7 +16,12 @@ module.exports = {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'stylesheet', href: 'https://lib.baomitu.com/element-ui/2.12.0/theme-chalk/index.css' }
-    ]
+    ],
+    script: [
+      {
+        src: "https://lib.baomitu.com/wangEditor/3.1.1/wangEditor.min.js"
+      }]
+
   },
   /*
   ** Customize the progress-bar color
@@ -27,8 +32,8 @@ module.exports = {
   */
   css: [
     // 'element-ui/lib/theme-chalk/index.css',
-    '@assets/css/reset.css',
-    '@assets/css/main.css'
+    '@static/reset.css',
+    '@static/main.css'
   ],
   /*
   ** Plugins to load before mounting the App

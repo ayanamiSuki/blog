@@ -1,38 +1,60 @@
 <template>
   <div class="main">
+    <div class="switch">
+      <span class="active">code</span>
+      <span>picture</span>
+    </div>
     <el-row class="banner">
-      <img src="https://wx3.sinaimg.cn/large/9afd6f06gy1gctay1ir55j21yt0ik40w.jpg" alt="banner" />
-      <transition name="silde-left">
-        <span class="logo lg" v-show="isloading">ayanamiSuki.com</span>
-      </transition>
+      <carousel :carouselList="carouselList" />
     </el-row>
     <el-row class="ohter-intro lg">
       <span>取长补短</span>
-      <span>自己的github，双倍的快乐</span>
-      <el-button @click="punish">点我发布文章</el-button>
+      <span>Talk is cheap. Show me the code. ----Linus Torvalds</span>
     </el-row>
     <el-row class="list-content">
-      <list-item :listData="list" />
+      <list-item class="list-item-wrap" :listData="list" />
+      <aside-item class="aside-item-wrap" :asideList="asideList" />
+    </el-row>
+    <el-row class="fixed-btn">
+      <itemBtn />
     </el-row>
   </div>
 </template>
 
 <script>
 import listItem from "../components/index/list";
+import carousel from "../components/index/carousel";
+import itemBtn from "../components/public/itemBtn";
+import asideItem from "../components/index/aside";
 export default {
   components: {
-    listItem
+    listItem,
+    carousel,
+    itemBtn,
+    asideItem
   },
   async asyncData(ctx) {
     let listRequest = await ctx.$axios.get("article/getarticle");
-    if (listRequest.code === 0) {
-      return { list: listRequest.data };
+    let carouselReq = await ctx.$axios.get("/article/getCarousel");
+    let asideReq = await ctx.$axios.get("/article/recommend");
+    if (
+      listRequest.code === 0 &&
+      carouselReq.code === 0 &&
+      asideReq.code === 0
+    ) {
+      return {
+        list: listRequest.data,
+        carouselList: carouselReq.data,
+        asideList: asideReq.data
+      };
     }
   },
   data() {
     return {
       isloading: false,
-      list: []
+      list: [],
+      carouselList: [],
+      asideList: []
     };
   },
   mounted() {
@@ -40,23 +62,38 @@ export default {
       this.isloading = true;
     }, 1000);
   },
-  methods: {
-    punish() {
-      if (this.$store.state.userInfo.username == "") {
-        this.$message.error("请先登录");
-      } else {
-        this.$router.push("/editor", null);
-      }
-    }
-  }
+  methods: {}
 };
 </script>
 
 <style lang="scss" scoped>
+.switch {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  span {
+    display: inline-block;
+    width: 100px;
+    padding: 5px;
+    margin: 5px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    &:hover {
+      color: #002d4a;
+    }
+    &:first-child {
+      border-right: 1px solid #666;
+    }
+  }
+  .active {
+    color: #e7838c;
+  }
+}
 .banner {
-  max-height: 450px;
   overflow: hidden;
-  border-bottom: 1px solid #f2f2f2;
   position: relative;
   img {
     width: 100%;
@@ -71,13 +108,15 @@ export default {
   }
 }
 .ohter-intro {
+  background: url(https://wx3.sinaimg.cn/large/9afd6f06gy1gctay1ir55j21yt0ik40w.jpg)
+    center center no-repeat;
+  background-size: contain;
   min-height: 200px;
-  background-color: #002d4a;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: #7cafcf;
+  color: #00243b;
   span {
     padding: 10px;
   }
@@ -86,8 +125,20 @@ export default {
   }
 }
 .list-content {
-  background-color: #f2f2f2;
   min-height: 200px;
+  display: flex;
+  width: 1190px;
+  margin: 0 auto;
+  margin-top: 20px;
+  .list-item-wrap {
+    width: 70%;
+    margin-top: 5px;
+  }
+  .aside-item-wrap {
+    width: 28%;
+    margin-left: 2%;
+    margin-top: 5px;
+  }
 }
 .silde-left-leave-active,
 .silde-left-enter-active {

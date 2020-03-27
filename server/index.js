@@ -8,6 +8,7 @@ import bodyParser from 'koa-bodyparser'
 import session from 'koa-generic-session'
 import Redis from 'koa-redis'
 import json from 'koa-json'
+import koaStatic from 'koa-static'
 import dbConfig from './dbs/config'
 import passport from './interface/utils/passport'
 import users from './interface/users'
@@ -28,6 +29,8 @@ async function start() {
   } = nuxt.options.server
 
   //设定
+
+  app.use(koaStatic(__dirname + './static'))
   app.keys = ["aya", "keys"];
   app.proxy = true;
   app.use(
@@ -46,7 +49,6 @@ async function start() {
     })
   )
   app.use(json())
-
   //连接数据库
   //DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead
   mongoose.set('useCreateIndex', true)

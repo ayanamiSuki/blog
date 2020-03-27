@@ -82,6 +82,7 @@ router.post('/signup', async ctx => {
 })
 
 router.post('/signin', async (ctx, next) => {
+
     return Passport.authenticate('local', function (err, user, info, status) {
         if (err) {
             ctx.body = {
@@ -109,8 +110,9 @@ router.post('/signin', async (ctx, next) => {
 
 
 router.post("/verify", async (ctx, next) => {
-    let { username, email } = ctx.request.body;
-    let e_mail = await User.find({ email });
+    let username = ctx.request.body.username;
+    let userEmail = ctx.request.body.email;
+    let e_mail = await User.find({ email: userEmail });
     if (e_mail.length) {
         ctx.body = {
             code: -1,
@@ -119,7 +121,6 @@ router.post("/verify", async (ctx, next) => {
         return false;
     }
     const saveExpire = await Store.hget(`nodemail:${username}`, "expire");
-
     if (saveExpire && new Date().getTime - saveExpire < 0) {
         ctx.body = {
             code: -1,
@@ -128,9 +129,7 @@ router.post("/verify", async (ctx, next) => {
         return false;
     }
     let transporter = nodeMailer.createTransport({
-        host: Email.smtp.host,
-        port: 587,
-        secure: false,
+        service: 'qq',
         auth: {
             user: Email.smtp.user,
             pass: Email.smtp.pass
@@ -138,8 +137,8 @@ router.post("/verify", async (ctx, next) => {
     });
     let ko = {
         code: Email.smtp.code(),
-        expire: Email.smtp.expire,
-        email: email,
+        expire: Email.smtp.expire(),
+        email: userEmail,
         user: username
     };
 
@@ -151,10 +150,14 @@ router.post("/verify", async (ctx, next) => {
     };
     await transporter.sendMail(mailOption, (err, info) => {
         if (err) {
-            return console.log("error");
+            ctx.body = {
+                code: 0,
+                msg: err
+            };
+            return console.log("发送注册邮件失败,原因:" + err);
         } else {
             Store.hmset(
-                `modemail:${ko.user}`,
+                `nodemail:${ko.user}`,
                 "code",
                 ko.code,
                 "expire",
@@ -188,15 +191,17 @@ router.get("/exit", async (ctx, next) => {
 router.get("/getUser", async (ctx, next) => {
     // await ctx.logout();
     if (ctx.isAuthenticated()) {
-        const { username, email } = ctx.session.passport.user;
+        const { username, email, avatar } = ctx.session.passport.user;
         ctx.body = {
-            user: username,
-            email
+            username,
+            email,
+            avatar
         };
     } else {
         ctx.body = {
-            user: "",
-            email: ""
+            username: "",
+            email: "",
+            avatar: ""
         };
     }
 });

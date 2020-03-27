@@ -1,11 +1,5 @@
 <template>
   <div class="header">
-    <span class="iconfont active" @click="toCode">
-      <i class="el-icon-picture-outline"></i>
-    </span>
-    <span class="iconfont">
-      <i class="el-icon-document"></i>
-    </span>
     <transition name="slide-down">
       <login
         @loginSuccess="loginStatus=false"
@@ -16,16 +10,21 @@
       />
     </transition>
     <el-row class="user-content">
-      <el-dropdown v-if="user">
+      <el-dropdown v-if="username">
         <span class="avatar el-dropdown-link">
-          <img src="https://wx3.sinaimg.cn/mw690/9afd6f06gy1gct7ybm61qj20hs0p4gni.jpg" alt="头像" />
+          <img
+            :src="$store.state.userInfo.avatar||'https://wx3.sinaimg.cn/mw690/9afd6f06gy1gd7peyq4v8j20f80e90t6.jpg'"
+            :alt="'欢迎'+$store.state.userInfo.username+'来到朔月十六夜的小窝'"
+          />
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>返回首页</el-dropdown-item>
+          <el-dropdown-item @click.native="$router.push('/')">返回首页</el-dropdown-item>
           <el-dropdown-item @click.native="exit()">退出登录</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <span v-if="!user" @click="loginStatus=true" class="not-login">注册/登录</span>
+      <el-row v-else>
+        <span @click="loginStatus=true" class="not-login">注册/登录</span>
+      </el-row>
     </el-row>
   </div>
 </template>
@@ -38,7 +37,7 @@ export default {
   },
   data() {
     return {
-      user: "",
+      username: "",
       loginStatus: false
     };
   },
@@ -49,7 +48,7 @@ export default {
     loginState() {
       if (this.$store.state.userInfo.username) {
         this.loginStatus = false;
-        this.user = this.$store.state.userInfo.username;
+        this.username = this.$store.state.userInfo.username;
       }
     },
     toCode() {
@@ -57,8 +56,9 @@ export default {
     },
     login() {
       this.$axios.get("/users/getUser").then(res => {
-        this.user = res.user;
+        this.username = res.username;
         this.loginStatus = false;
+        this.$store.dispatch("loginUser", res);
       });
     },
     exit() {
@@ -68,7 +68,8 @@ export default {
             type: "success",
             message: res.msg
           });
-          this.user = "";
+          this.username = "";
+          this.$store.dispatch("exitUser");
         }
       });
     }
@@ -78,46 +79,34 @@ export default {
 
 <style lang="scss" scoped>
 .header {
-  text-align: center;
-  background-color: #002d4a;
+  background: url(https://wx2.sinaimg.cn/mw690/9afd6f06gy1gd7keltxwnj20ro03ywef.jpg)
+    center center no-repeat;
+  background-size: 15%;
   position: relative;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   .not-login {
-    color: #fff;
-    line-height: 44px;
+    color: #666;
+    line-height: 100px;
     letter-spacing: 1px;
     font-size: 12px;
     padding-right: 20px;
   }
-  > .iconfont {
-    color: #fff;
-    padding: 10px;
-    cursor: pointer;
-    transition: all 0.3s linear;
-    display: inline-block;
-    &:hover {
-      background: rgba(231, 231, 231, 0.1);
-    }
-  }
-  > .active {
-    background: rgba(255, 255, 255, 0.3);
-  }
   .user-content {
-    position: absolute;
-    right: 10px;
-    top: 0;
-    cursor: pointer;
     .avatar {
-      height: 44px;
-      width: 44px;
-      display: flex;
-      align-items: center;
-      color: #fff;
-      padding: 5px;
-      box-sizing: border-box;
+      height: 50px;
+      width: 50px;
+      margin-right: 20px;
+      display: inline-block;
+      overflow: hidden;
+      cursor: pointer;
+      border-radius: 50%;
+      border: 2px solid #f8d9dc;
       img {
         width: 100%;
         height: 100%;
-        border-radius: 50%;
         object-fit: cover;
       }
       span {

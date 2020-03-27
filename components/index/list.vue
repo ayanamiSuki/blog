@@ -1,19 +1,30 @@
 <template>
-  <ul class="list">
-    <el-row
+  <div class="list">
+    <el-card
       class="list-item"
       v-for="(i,index) in listData"
       @click.native="corrugatedClick(index,$event,i._id)"
       :key="index"
     >
-      <el-col :span="24" class="lf">{{i.title}}</el-col>
-      <el-col :span="24" class="rt">
-        <span>Author:{{i.user}}</span>
+      <el-col class="list-bg">
+        <img :src="i.bg" alt="i.title" />
+        <span :span="24" class="lf">{{i.title}}</span>
       </el-col>
-      <span class="tips sm">{{i.time}}</span>
+      <el-row class="list-content-wrap">
+        <el-col :span="24" class="rt">
+          <span>
+            <i class="el-icon-user"></i>
+            {{i.user}}
+          </span>
+          <span class="tips sm">
+            <i class="el-icon-timer"></i>
+            {{i.time}}
+          </span>
+        </el-col>
+      </el-row>
       <div class="changeCover" ref="corrugated"></div>
-    </el-row>
-  </ul>
+    </el-card>
+  </div>
 </template>
 
 <script>
@@ -48,35 +59,60 @@ export default {
 
 <style lang='scss' scoped>
 .list {
-  width: 940px;
-  margin: 0 auto;
+  background-color: #fff;
+  margin-top: 10px;
+
   .list-item {
-    border-bottom: 1px solid #fff;
     display: flex;
     flex-direction: column;
     min-height: 150px;
     justify-content: space-between;
     transition: background 0.2s linear;
     overflow: hidden;
-    padding: 10px 35px;
+    margin-bottom: 10px;
+    .list-content-wrap {
+      pointer-events: none;
+    }
+    .list-bg {
+      height: 300px;
+      overflow: hidden;
+      position: relative;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .lf {
+        position: absolute;
+        bottom: 30px;
+        left: 30px;
+        background: #fff;
+        display: inline-block;
+        padding: 10px;
+        font-size: 24px;
+        max-width: 500px;
+        line-height: 26px;
+        text-align: left;
+      }
+    }
     &:hover {
-      background: rgba($color: #000000, $alpha: 0.1);
+      background: rgba($color: #7777771a, $alpha: 0.1);
       cursor: pointer;
     }
     .el-col {
       line-height: 24px;
       pointer-events: none;
+      text-align: center;
     }
     .lf {
       color: #002d4a;
       font-size: 18px;
     }
     .rt {
+      padding: 15px;
       span:first-child {
         font-size: 12px;
-        background-color: #002d4a;
-        padding: 5px 10px;
-        color: #fff;
+        color: #e7838c;
       }
     }
     .changeCover {
@@ -104,10 +140,8 @@ export default {
       }
     }
     .tips {
-      color: #a8a8a8;
-      position: absolute;
-      top: 10px;
-      right: 10px;
+      color: #e7838c;
+      padding-left: 15px;
     }
   }
 }

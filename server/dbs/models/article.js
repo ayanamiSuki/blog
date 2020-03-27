@@ -17,6 +17,10 @@ const editorSchema = new Schema({
     user: {
         type: String,
         require: true
+    },
+    bg: {
+        type: String,
+        default: 'https://wx1.sinaimg.cn/mw690/9afd6f06gy1gct7zcioagj20p00irwiw.jpg'
     }
 })
 export default mongoose.model('Article', editorSchema)

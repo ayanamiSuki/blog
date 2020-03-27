@@ -49,3 +49,9 @@
   .slide-down-enter,.slide-down-leave-to{
     transform: translateY(-100vh);
   }
+  .el-card__body{
+    padding: 0px;
+  }
+  .w-e-text-container{
+    z-index: 100!important;
+  }

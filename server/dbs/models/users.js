@@ -14,6 +14,10 @@ const UserSchema = new Schema({
     email: {
         type: String,
         require: true
+    },
+    avatar: {
+        type: String,
+        default: 'https://wx3.sinaimg.cn/mw690/9afd6f06gy1gct7ybm61qj20hs0p4gni.jpg'
     }
 })
 
