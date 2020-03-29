@@ -71,11 +71,25 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    transpile: [/^element-ui/],
+    // transpile: [/^element-ui/],
+    analyze: false,
+    maxChunkSize: 300000,
+    babel: {
+      "plugins": [
+        [
+          "component",
+          {
+            "libraryName": "element-ui",
+            "styleLibraryName": "theme-chalk"
+          }
+        ]
+      ]
+    },
     /*
     ** You can extend webpack config here
     */
     extend(config, ctx) {
+
     }
   }
 }

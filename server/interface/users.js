@@ -16,6 +16,7 @@ router.post('/signup', async ctx => {
     const { username, password, email, code } = ctx.request.body;
     if (code) {
         const saveCode = await Store.hget(`nodemail:${username}`, `code`);
+        console.log(code, saveCode);
         const saveExpire = await Store.hget(`nodemail:${username}`, 'expire');
         if (code === saveCode) {
             if (new Date().getTime - saveExpire > 0) {
@@ -47,14 +48,14 @@ router.post('/signup', async ctx => {
         };
         return false;
     }
-    let e_mail = await User.find({ email });
-    if (e_mail.length) {
-        ctx.body = {
-            code: -1,
-            msg: "邮箱已经被注册"
-        };
-        return false;
-    }
+    // let e_mail = await User.find({ email });
+    // if (e_mail.length) {
+    //     ctx.body = {
+    //         code: -1,
+    //         msg: "邮箱已经被注册"
+    //     };
+    //     return false;
+    // }
     let newUser = await User.create({
         username, password, email
     });
@@ -113,13 +114,13 @@ router.post("/verify", async (ctx, next) => {
     let username = ctx.request.body.username;
     let userEmail = ctx.request.body.email;
     let e_mail = await User.find({ email: userEmail });
-    if (e_mail.length) {
-        ctx.body = {
-            code: -1,
-            msg: "邮箱已经被注册"
-        };
-        return false;
-    }
+    // if (e_mail.length) {
+    //     ctx.body = {
+    //         code: -1,
+    //         msg: "邮箱已经被注册"
+    //     };
+    //     return false;
+    // }
     const saveExpire = await Store.hget(`nodemail:${username}`, "expire");
     if (saveExpire && new Date().getTime - saveExpire < 0) {
         ctx.body = {
