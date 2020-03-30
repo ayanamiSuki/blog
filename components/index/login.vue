@@ -55,6 +55,11 @@
         <el-input type="password" v-model="ruleForm1.pass" autocomplete="off"></el-input>
       </el-form-item>
       <el-button type="primary" class="subbtn" @click="submitForm('ruleForm1')">登录</el-button>
+      <el-row class="forget-pass">
+        <span @click="$emit('showForget')">忘记密码？</span>
+        <span>|</span>
+        <span @click="islogin=false">注册新账号</span>
+      </el-row>
     </el-form>
   </el-card>
 </template>

@@ -55,7 +55,24 @@ router.post('/uploadarticle', async ctx => {
         }
     }
 })
+router.post('/editArticle', async ctx => {
+    if (!ctx.isAuthenticated()) {
+        ctx.body = {
+            code: -1,
+            msg: '请先登录'
+        }
+        return false;
+    }
+    const { title, content, bg, id } = ctx.request.body;
+    let result = await Article.findOneAndUpdate({ _id: id }, { title, content, bg }, { new: true });
 
+    if (result) {
+        ctx.body = {
+            code: 0,
+            msg: '上传成功'
+        }
+    }
+})
 router.get('/getarticle', async ctx => {
     let result = await Article.find({}, ({ content: 0 })).sort({ _id: -1 }).skip(4);
 
@@ -66,6 +83,16 @@ router.get('/getarticle', async ctx => {
             data: result
         }
     }
+})
+router.get('/myArticle', async ctx => {
+    const { username } = ctx.session.passport.user;
+    let result = await Article.find({ user: username }, ({ content: 0 })).sort({ _id: -1 }).limit(10);
+    ctx.body = {
+        code: 0,
+        msg: '请求成功',
+        data: result
+    }
+
 })
 router.get('/getCarousel', async ctx => {
     let result = await Article.find({}, ({ content: 0 })).sort({ _id: -1 }).limit(4);
@@ -94,7 +121,23 @@ router.get('/getarticleDetail', async ctx => {
         }
     }
 })
-
+router.get('/getSingleArticle', async ctx => {
+    let { id } = ctx.request.query;
+    let result = await Article.findOne({ _id: id });
+    if (result) {
+        ctx.body = {
+            code: 0,
+            msg: '请求成功',
+            data: result
+        }
+    } else {
+        ctx.body = {
+            code: -1,
+            msg: '不存在的文章',
+            data: ''
+        }
+    }
+})
 
 router.get('/recommend', async ctx => {
     let count = await Article.countDocuments();

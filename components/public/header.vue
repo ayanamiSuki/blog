@@ -5,8 +5,17 @@
         @loginSuccess="loginStatus=false"
         @closeModel="loginStatus=false"
         @logined="login"
+        @showForget="forgetStatus=true,loginStatus=false"
         v-if="loginStatus"
         ref="loginComponent"
+      />
+    </transition>
+    <transition name="slide-down">
+      <forget
+        @forgetSuccess="forgetStatus=false"
+        @closeModel="forgetStatus=false"
+        v-if="forgetStatus"
+        ref="forgetComponent"
       />
     </transition>
     <el-row class="user-content">
@@ -18,6 +27,7 @@
           />
         </span>
         <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item @click.native="$router.push('/center')">个人中心</el-dropdown-item>
           <el-dropdown-item @click.native="$router.push('/')">返回首页</el-dropdown-item>
           <el-dropdown-item @click.native="exit()">退出登录</el-dropdown-item>
         </el-dropdown-menu>
@@ -31,14 +41,17 @@
 
 <script>
 import login from "../index/login";
+import forget from "../index/forgetUser";
 export default {
   components: {
-    login
+    login,
+    forget
   },
   data() {
     return {
       username: "",
-      loginStatus: false
+      loginStatus: false,
+      forgetStatus: false
     };
   },
   mounted() {
@@ -70,6 +83,7 @@ export default {
           });
           this.username = "";
           this.$store.dispatch("exitUser");
+          this.$router.push("/");
         }
       });
     }
@@ -93,6 +107,7 @@ export default {
     letter-spacing: 1px;
     font-size: 12px;
     padding-right: 20px;
+    cursor: pointer;
   }
   .user-content {
     .avatar {

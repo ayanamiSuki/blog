@@ -18,7 +18,7 @@
 export default {
   methods: {
     punish() {
-      console.log(this.$store.state.userInfo.username == "");
+      // console.log(this.$store.state.userInfo.username == "");
       if (this.$store.state.userInfo.username == "") {
         this.$message.error("请先登录");
       } else {
@@ -54,6 +54,7 @@ export default {
   font-size: 30px;
   display: flex;
   flex-direction: column;
+  z-index: 11;
   .edit {
     transition: all 0.3s linear;
     margin-top: 10px;

@@ -55,3 +55,7 @@
   .w-e-text-container{
     z-index: 100!important;
   }
+  .main-color{
+    color: #e7838c;
+  }
+  .bold{font-weight: bold;}

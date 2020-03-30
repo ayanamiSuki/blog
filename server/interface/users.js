@@ -16,7 +16,6 @@ router.post('/signup', async ctx => {
     const { username, password, email, code } = ctx.request.body;
     if (code) {
         const saveCode = await Store.hget(`nodemail:${username}`, `code`);
-        console.log(code, saveCode);
         const saveExpire = await Store.hget(`nodemail:${username}`, 'expire');
         if (code === saveCode) {
             if (new Date().getTime - saveExpire > 0) {
@@ -109,6 +108,36 @@ router.post('/signin', async (ctx, next) => {
 
 })
 
+
+router.post("/changePass", async ctx => {
+    let { username, email, password, code } = ctx.request.body;
+    if (code) {
+        const saveCode = await Store.hget(`nodemail:${username}`, "code");
+        if (code == saveCode) {
+            let result = await User.findOneAndUpdate({ username }, { password }, { 'new': true });
+            if (result) {
+                ctx.body = {
+                    code: 0,
+                    msg: '修改成功',
+                    data: ''
+                }
+            }
+
+        } else {
+            ctx.body = {
+                code: -1,
+                msg: '验证码错误'
+            }
+            return false;
+        }
+    } else {
+        ctx.body = {
+            code: -1,
+            msg: '验证码不存在'
+        }
+        return false;
+    }
+})
 
 router.post("/verify", async (ctx, next) => {
     let username = ctx.request.body.username;

@@ -1,17 +1,17 @@
 <template>
-  <div class="list">
-    <el-card
+  <ul class="list">
+    <div class="new-list">每日更新</div>
+    <li
       class="list-item"
       v-for="(i,index) in listData"
-      @click.native="corrugatedClick(index,$event,i._id)"
+      @click="corrugatedClick(index,$event,i._id)"
       :key="index"
     >
-      <el-col class="list-bg">
-        <img :src="i.bg" alt="i.title" />
-        <span :span="24" class="lf">{{i.title}}</span>
-      </el-col>
-      <el-row class="list-content-wrap">
-        <el-col :span="24" class="rt">
+      <div class="list-content-wrap">
+        <div>
+          <span class="lf">{{i.title}}</span>
+        </div>
+        <div class="rt">
           <span>
             <i class="el-icon-user"></i>
             {{i.user}}
@@ -20,11 +20,20 @@
             <i class="el-icon-timer"></i>
             {{i.time}}
           </span>
+          <span class="sm from">
+            from:
+            <span style="color:#666">code</span>
+          </span>
+        </div>
+      </div>
+      <el-row>
+        <el-col class="list-bg">
+          <img :src="i.bg" alt="i.title" />
         </el-col>
       </el-row>
       <div class="changeCover" ref="corrugated"></div>
-    </el-card>
-  </div>
+    </li>
+  </ul>
 </template>
 
 <script>
@@ -45,10 +54,10 @@ export default {
       corrugatedDom.style.top = y - 15 + "px";
       corrugatedDom.style.left = x - 15 + "px";
       corrugatedDom.classList.add("active");
-      this.$router.push({
-        path: "/listDetail",
-        query: { id: JSON.stringify(id) }
-      });
+      // this.$router.push({
+      //   path: "/listDetail",
+      //   query: { id: JSON.stringify(id) }
+      // });
       setTimeout(() => {
         corrugatedDom.classList.remove("active");
       }, 1000);
@@ -61,55 +70,67 @@ export default {
 .list {
   background-color: #fff;
   margin-top: 10px;
-
+  .new-list {
+    color: #e7838c;
+    position: relative;
+    padding-left: 10px;
+    font-size: 18px;
+    margin-bottom: 15px;
+    &::after {
+      content: " ";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      background: #e7838c;
+      border-radius: 2px;
+    }
+  }
   .list-item {
     display: flex;
-    flex-direction: column;
-    min-height: 150px;
+    flex-direction: row;
     justify-content: space-between;
-    transition: background 0.2s linear;
+    transition: all 0.2s linear;
     overflow: hidden;
-    margin-bottom: 10px;
+    padding: 20px 15px;
+    border-bottom: 1px solid #d1d1d1;
+    position: relative;
     .list-content-wrap {
       pointer-events: none;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-content: stretch;
+      .from {
+        color: #e7838c;
+        float: right;
+        padding-right: 15px;
+      }
     }
     .list-bg {
-      height: 300px;
+      height: 100px;
+      width: 150px;
       overflow: hidden;
       position: relative;
       img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-      }
-      .lf {
-        position: absolute;
-        bottom: 30px;
-        left: 30px;
-        background: #fff;
-        display: inline-block;
-        padding: 10px;
-        font-size: 24px;
-        max-width: 500px;
-        line-height: 26px;
-        text-align: left;
+        border-radius: 3px;
       }
     }
     &:hover {
-      background: rgba($color: #7777771a, $alpha: 0.1);
+      background: #ffb5b51a;
       cursor: pointer;
-    }
-    .el-col {
-      line-height: 24px;
-      pointer-events: none;
-      text-align: center;
     }
     .lf {
       color: #002d4a;
       font-size: 18px;
+      line-height: 24px;
     }
     .rt {
-      padding: 15px;
       span:first-child {
         font-size: 12px;
         color: #e7838c;

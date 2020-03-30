@@ -1,15 +1,14 @@
 <template>
   <div class="main">
+    <el-row class="ohter-intro lg">
+      <span>Talk is cheap. Show me the code. ----Linus Torvalds</span>
+    </el-row>
     <div class="switch">
       <span class="active">code</span>
       <span>picture</span>
     </div>
     <el-row class="banner">
       <carousel :carouselList="carouselList" />
-    </el-row>
-    <el-row class="ohter-intro lg">
-      <span>取长补短</span>
-      <span>Talk is cheap. Show me the code. ----Linus Torvalds</span>
     </el-row>
     <el-row class="list-content">
       <list-item class="list-item-wrap" :listData="list" />
@@ -108,10 +107,6 @@ export default {
   }
 }
 .ohter-intro {
-  background: url(https://wx3.sinaimg.cn/large/9afd6f06gy1gctay1ir55j21yt0ik40w.jpg)
-    center center no-repeat;
-  background-size: contain;
-  min-height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -5,7 +5,7 @@
       <el-row class="upload-activex">
         <label @click="dialogVisible=true">
           <i class="el-icon-picture-outline-round"></i>
-          上传头图
+          上传封面
         </label>
       </el-row>
       <div class="head-img">
@@ -19,7 +19,7 @@
       <div id="editor"></div>
     </div>
     <el-row class="sub">
-      <el-button @click="updateImage">发布文章</el-button>
+      <el-button @click="updateImage">{{reeditor?"修改文章":"发布文章"}}</el-button>
     </el-row>
 
     <el-dialog
@@ -60,16 +60,33 @@ export default {
       editor: "",
       update: false,
       dialogVisible: false,
+      reeditor: false,
       headImg:
-        "http://www.51pptmoban.com/d/file/2018/10/14/1d4d444b09c12d773868791c3f57bf43.jpg",
+        "https://wx3.sinaimg.cn/mw690/9afd6f06gy1gctay1ir55j21yt0ik40w.jpg",
       file: "",
       netImg: "http://www."
     };
   },
   mounted() {
     this.editorInit();
+    this.getReviseData();
   },
   methods: {
+    async getReviseData() {
+      if (this.$route.query.id) {
+        let req = await this.$axios.get(
+          "article/getSingleArticle?id=" + JSON.parse(this.$route.query.id)
+        );
+        if (req.code === 0) {
+          console.log(req.data);
+          this.title = req.data.title;
+          this.headImg = req.data.bg;
+          this.netImg = req.data.bg;
+          this.editor.cmd.do("insertHTML", req.data.content);
+          this.reeditor = true;
+        }
+      }
+    },
     editorInit() {
       // const Editor = process.client ? require("wangeditor") : undefined;
       const Editor = window.wangEditor;
@@ -88,22 +105,26 @@ export default {
       let title = this.title;
       let html = this.editor.txt.html();
       let content = xss(html); // 此处进行 xss 攻击过滤
-      this.$axios
-        .post("/article/uploadarticle", { title, content, bg })
-        .then(res => {
-          if (res.code === 0) {
-            this.$message({
-              type: "success",
-              message: res.msg
-            });
-            setTimeout(() => {
-              this.$router.push("/");
-            }, 1000);
-          } else {
-            this.$message.error(res.msg);
-            this.update = false;
-          }
-        });
+      let _url = "/article/uploadarticle";
+      let id = "";
+      if (this.reeditor) {
+        _url = "/article/editArticle";
+        id = JSON.parse(this.$route.query.id);
+      }
+      this.$axios.post(_url, { title, content, bg, id }).then(res => {
+        if (res.code === 0) {
+          this.$message({
+            type: "success",
+            message: res.msg
+          });
+          setTimeout(() => {
+            this.$router.push("/");
+          }, 1000);
+        } else {
+          this.$message.error(res.msg);
+          this.update = false;
+        }
+      });
     },
     getImage(e) {
       this.file = e.target.files[0];
@@ -189,9 +210,9 @@ export default {
   padding: 130px 30px;
   position: relative;
   overflow: hidden;
-  .el-input {
-    width: 1190px;
-  }
+  width: 1190px;
+  margin: 0 auto;
+
   .upload-activex {
     position: absolute;
     bottom: 0;

@@ -52,6 +52,8 @@ async function start() {
   //连接数据库
   //DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead
   mongoose.set('useCreateIndex', true)
+  //Mongoose: `findOneAndUpdate()` and `findOneAndDelete()` without the `useFindAndModify` option set to false are deprecated.
+  mongoose.set('useFindAndModify', false);
   mongoose.connect(dbConfig.dbs, { useNewUrlParser: true, useUnifiedTopology: true })
   //身份验证  
   app.use(passport.initialize())
