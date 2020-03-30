@@ -207,6 +207,7 @@ export default {
           clearInterval(timer);
           this.verifyInfo = "发送验证码";
           this.count = 60;
+          return false;
         }
         this.verifyInfo = `${this.count}秒后可再次发送`;
       }, 1000);

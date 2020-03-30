@@ -142,14 +142,14 @@ router.post("/changePass", async ctx => {
 router.post("/verify", async (ctx, next) => {
     let username = ctx.request.body.username;
     let userEmail = ctx.request.body.email;
-    let e_mail = await User.find({ email: userEmail });
-    // if (e_mail.length) {
-    //     ctx.body = {
-    //         code: -1,
-    //         msg: "邮箱已经被注册"
-    //     };
-    //     return false;
-    // }
+    let ifUser = await User.find({ username });
+    if (ifUser.length) {
+        ctx.body = {
+            code: -1,
+            msg: "用户名已经被注册"
+        };
+        return false;
+    }
     const saveExpire = await Store.hget(`nodemail:${username}`, "expire");
     if (saveExpire && new Date().getTime - saveExpire < 0) {
         ctx.body = {
