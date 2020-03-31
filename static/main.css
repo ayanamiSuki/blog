@@ -59,3 +59,9 @@
     color: #e7838c;
   }
   .bold{font-weight: bold;}
+  .page .el-pagination.is-background .el-pager li:not(.disabled).active{
+    background-color: #fcb9bf;
+  }
+  .page .el-pagination.is-background .el-pager li:not(.disabled):hover{
+    color: #e7838c;
+  }

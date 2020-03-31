@@ -42,7 +42,7 @@ router.post('/uploadarticle', async ctx => {
     }
     const { title, content, bg } = ctx.request.body;
     // let time = Date();
-    let time = sillyDatetime.format(new Date(), 'YYYY-MM-DD');
+    let time = sillyDatetime.format(new Date(), 'YYYY-MM-DD HH:mm');
     let user = ctx.session.passport.user.username;
     let article = new Article({
         time, user, title, content, bg
@@ -74,13 +74,18 @@ router.post('/editArticle', async ctx => {
     }
 })
 router.get('/getarticle', async ctx => {
-    let result = await Article.find({}, ({ content: 0 })).sort({ _id: -1 }).skip(4);
-
+    let { page } = ctx.request.query;
+    let start = (page - 1) * 10;
+    let result = await Article.find({}, ({ content: 0 })).sort({ _id: -1 }).skip(start).limit(10);
+    let count = await Article.count();
     if (result.length) {
         ctx.body = {
             code: 0,
             msg: '请求成功',
-            data: result
+            data: {
+                count,
+                result
+            }
         }
     }
 })

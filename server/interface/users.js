@@ -14,8 +14,6 @@ let Store = new Redis().client
 
 router.post('/signup', async ctx => {
     const { username, password, email, code } = ctx.request.body;
-
-    console.log('code:', code)
     if (code) {
         const saveCode = await Store.hget(`nodemail:${username}`, `code`);
 
@@ -223,7 +221,6 @@ router.get("/exit", async (ctx, next) => {
 });
 
 router.get("/getUser", async (ctx, next) => {
-    // await ctx.logout();
     if (ctx.isAuthenticated()) {
         const { username, email, avatar } = ctx.session.passport.user;
         ctx.body = {

@@ -14,6 +14,14 @@
       <list-item class="list-item-wrap" :listData="list" />
       <aside-item class="aside-item-wrap" :asideList="asideList" />
     </el-row>
+    <el-row class="page">
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="count"
+        @current-change="pageChage"
+      ></el-pagination>
+    </el-row>
     <el-row class="fixed-btn">
       <itemBtn />
     </el-row>
@@ -33,7 +41,7 @@ export default {
     asideItem
   },
   async asyncData(ctx) {
-    let listRequest = await ctx.$axios.get("article/getarticle");
+    let listRequest = await ctx.$axios.get("article/getarticle?page=1");
     let carouselReq = await ctx.$axios.get("/article/getCarousel");
     let asideReq = await ctx.$axios.get("/article/recommend");
     if (
@@ -42,7 +50,8 @@ export default {
       asideReq.code === 0
     ) {
       return {
-        list: listRequest.data,
+        list: listRequest.data.result,
+        count: listRequest.data.count,
         carouselList: carouselReq.data,
         asideList: asideReq.data
       };
@@ -53,7 +62,8 @@ export default {
       isloading: false,
       list: [],
       carouselList: [],
-      asideList: []
+      asideList: [],
+      count: 1
     };
   },
   mounted() {
@@ -61,11 +71,23 @@ export default {
       this.isloading = true;
     }, 1000);
   },
-  methods: {}
+  methods: {
+    async pageChage(val) {
+      let listRequest = await this.$axios.get("article/getarticle?page=" + val);
+      if (listRequest.code === 0) {
+        this.list = listRequest.data.result;
+      }
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
+.page {
+  width: 1190px;
+  margin: 0 auto;
+  padding: 10px 0;
+}
 .switch {
   display: flex;
   flex-direction: row;

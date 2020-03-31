@@ -1,5 +1,9 @@
 import Vue from 'vue'
-import { Carousel, CarouselItem, button, form, formItem, icon, card, row, col, input, notification, message, dialog, dropdown, dropdownMenu, dropdownItem } from 'element-ui';
+import {
+    Carousel, CarouselItem, button, form, formItem,
+    icon, card, row, col, input, notification, message,
+    dialog, dropdown, dropdownMenu, dropdownItem, pagination
+} from 'element-ui';
 
 Vue.use(Carousel);
 Vue.use(CarouselItem);
@@ -15,5 +19,6 @@ Vue.use(dialog);
 Vue.use(dropdown);
 Vue.use(dropdownMenu);
 Vue.use(dropdownItem);
+Vue.use(pagination);
 Vue.prototype.$notify = notification;
 Vue.prototype.$message = message;

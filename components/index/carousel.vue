@@ -68,7 +68,8 @@ export default {
 
 <style lang="scss">
 .carousel {
-  margin: 10px 0;
+  width: 1400px;
+  margin: 15px auto;
   .carousel-img {
     height: 300px;
     overflow: hidden;
@@ -85,7 +86,7 @@ export default {
     position: absolute;
     width: 400px;
     height: 100px;
-    bottom: 0;
+    bottom: 0px;
     left: 50%;
     margin-left: -200px;
     display: flex;

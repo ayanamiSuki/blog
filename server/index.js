@@ -13,6 +13,7 @@ import dbConfig from './dbs/config'
 import passport from './interface/utils/passport'
 import users from './interface/users'
 import article from './interface/article'
+import comment from './interface/comment'
 const app = new Koa()
 
 // Import and Set Nuxt.js options
@@ -69,6 +70,7 @@ async function start() {
   //路由
   app.use(users.routes()).use(users.allowedMethods());
   app.use(article.routes()).use(article.allowedMethods());
+  app.use(comment.routes()).use(comment.allowedMethods());
   //=============
   app.use((ctx) => {
     ctx.status = 200

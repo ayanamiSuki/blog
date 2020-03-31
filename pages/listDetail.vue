@@ -6,11 +6,16 @@
       <div class="title">{{listDetail.title}}</div>
       <div v-html="listDetail.content" class="content"></div>
     </div>
+    <comment />
   </div>
 </template>
 
 <script>
+import comment from "../components/listDetail/comment";
 export default {
+  components: {
+    comment
+  },
   async asyncData({ query, $axios }) {
     let getListDetail = await $axios.get("/article/getarticleDetail", {
       params: {
@@ -41,6 +46,7 @@ export default {
     margin: 0 auto;
     background-color: #fff;
     padding: 15px;
+    box-sizing: border-box;
     .title {
       text-align: center;
       font-size: 28px;
