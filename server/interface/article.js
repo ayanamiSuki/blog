@@ -77,7 +77,7 @@ router.get('/getarticle', async ctx => {
     let { page } = ctx.request.query;
     let start = (page - 1) * 10;
     let result = await Article.find({}, ({ content: 0 })).sort({ _id: -1 }).skip(start).limit(10);
-    let count = await Article.count();
+    let count = await Article.countDocuments();
     if (result.length) {
         ctx.body = {
             code: 0,
