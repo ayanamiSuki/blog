@@ -31,7 +31,7 @@
             <span>{{item.userId.username}}</span>
             <span class="time">
               <i class="el-icon-timer"></i>
-              {{item.item}}
+              {{item.time}}
             </span>
           </div>
           <div class="comment">
@@ -74,6 +74,7 @@ export default {
               type: "success",
               message: res.msg
             });
+            this.getComment();
           }
         });
     },
