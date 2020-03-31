@@ -17,10 +17,10 @@ router.post('/signup', async ctx => {
 
     console.log('code:', code)
     if (code) {
-        const saveCode = await Store.hget(`nodemail:${username}`, `code`);
+        const saveCode = await Store.hget(`nodemail:${encodeURIComponent(username)}`, `code`);
 
         console.log('savecode:', saveCode);
-        const saveExpire = await Store.hget(`nodemail:${username}`, 'expire');
+        const saveExpire = await Store.hget(`nodemail:${encodeURIComponent(username)}`, 'expire');
         if (code === saveCode) {
             if (new Date().getTime - saveExpire > 0) {
                 ctx.body = {
@@ -173,7 +173,7 @@ router.post("/verify", async (ctx, next) => {
         code: Email.smtp.code(),
         expire: Email.smtp.expire(),
         email: userEmail,
-        user: username
+        user: encodeURIComponent(username)
     };
 
     let mailOption = {
