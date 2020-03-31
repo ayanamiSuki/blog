@@ -150,7 +150,7 @@ export default {
           } else {
             this.$axios
               .post("users/signup", {
-                username: encodeURIComponent(this.ruleForm.username),
+                username: this.ruleForm.username,
                 password: this.ruleForm.pass,
                 email: this.ruleForm.email,
                 code: this.ruleForm.code
