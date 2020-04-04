@@ -74,6 +74,7 @@ export default {
         padding: 10px;
         code {
           color: #fff;
+          white-space: pre-wrap;
         }
       }
       img {

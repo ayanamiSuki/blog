@@ -137,8 +137,8 @@ export default {
         this.$message.error("请上传头图");
         return false;
       }
-      if (this.title.length < 2 || this.title.length > 30) {
-        this.$message.error("标题字数为2-30字");
+      if (this.title.length < 2 || this.title.length > 50) {
+        this.$message.error("标题字数限制为2-50字");
         return false;
       } else if (
         this.editor.txt
