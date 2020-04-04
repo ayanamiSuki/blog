@@ -111,7 +111,7 @@ router.get('/getCarousel', async ctx => {
 })
 router.get('/getarticleDetail', async ctx => {
     let req = ctx.request.query;
-    let result = await Article.findOne({ _id: req._id }, { _id: 0 });
+    let result = await Article.findByIdAndUpdate({ _id: req._id }, { $inc: { "click": 1 } }, { new: true, upsert: true });
     if (result) {
         ctx.body = {
             code: 0,

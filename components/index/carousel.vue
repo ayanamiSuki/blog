@@ -4,7 +4,7 @@
     type="card"
     height="350px"
     class="carousel"
-    :autoplay="true"
+    :autoplay="false"
     indicator-position="none"
     @change="changeaCrousel"
   >
@@ -114,6 +114,18 @@ export default {
           padding-left: 5px;
         }
       }
+    }
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .carousel {
+    width: 100%;
+    .carousel-title {
+      width: 100%;
+      font-size: 14px;
+      margin-left: -50%;
+      box-sizing: border-box;
     }
   }
 }

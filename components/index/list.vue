@@ -20,6 +20,10 @@
             <i class="el-icon-timer"></i>
             {{i.time}}
           </span>
+          <span class="click-count sm">
+            <i class="el-icon-view"></i>
+            {{i.click}}
+          </span>
           <span class="sm from">
             from:
             <span style="color:#666">code</span>
@@ -107,6 +111,12 @@ export default {
         color: #e7838c;
         float: right;
         padding-right: 15px;
+        padding-left: 5px;
+      }
+      .click-count {
+        color: #e7838c;
+        display: inline-block;
+        padding: 0 5px;
       }
     }
     .list-bg {
@@ -134,6 +144,7 @@ export default {
       span:first-child {
         font-size: 12px;
         color: #e7838c;
+        padding: 0 5px;
       }
     }
     .changeCover {
@@ -162,8 +173,14 @@ export default {
     }
     .tips {
       color: #e7838c;
-      padding-left: 15px;
+      padding: 0 5px;
     }
+  }
+}
+@media screen and (max-width: 960px) {
+  .list .list-item .list-content-wrap .from {
+    float: none;
+    display: inline-block;
   }
 }
 </style>

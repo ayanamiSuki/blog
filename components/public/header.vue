@@ -131,4 +131,9 @@ export default {
     }
   }
 }
+@media screen and (max-width: 960px) {
+  .header {
+    background-size: 50%;
+  }
+}
 </style>

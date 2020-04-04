@@ -165,4 +165,24 @@ export default {
 .silde-left-enter {
   transform: translateX(-100%);
 }
+
+@media screen and (max-width: 960px) {
+  .page {
+    width: 100%;
+  }
+  .list-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    .list-item-wrap {
+      width: 100%;
+    }
+    .aside-item-wrap {
+      width: 100%;
+      padding: 5px;
+      margin: 5px 0;
+      box-sizing: border-box;
+    }
+  }
+}
 </style>

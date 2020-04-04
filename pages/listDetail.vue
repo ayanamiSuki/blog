@@ -6,7 +6,7 @@
       <div class="title">{{listDetail.title}}</div>
       <div v-html="listDetail.content" class="content"></div>
     </div>
-    <comment />
+    <comment class="comment-components" />
   </div>
 </template>
 
@@ -80,6 +80,14 @@ export default {
         max-width: 100%;
       }
     }
+  }
+}
+@media screen and (max-width: 960px) {
+  .detail-container .main {
+    width: 100%;
+  }
+  .detail-container .comment-components {
+    width: 100%;
   }
 }
 </style>
