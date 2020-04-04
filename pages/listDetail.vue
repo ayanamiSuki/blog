@@ -88,7 +88,7 @@ export default {
     width: 100%;
   }
   .detail-container .comment-components {
-    width: 100%;
+    width: 100% !important;
   }
 }
 </style>
